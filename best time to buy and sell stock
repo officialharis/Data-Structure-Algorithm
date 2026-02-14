@@ -1,0 +1,23 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+      
+      int[] stock = {7,1,5,3,6,4};
+      
+      int buy = stock[0] , Profit = 0 , maxProfit = 0;
+      
+      for (int i=0; i<stock.length; i++){
+        
+        buy = Math.min(stock[i] , buy);
+        
+        Profit = stock[i] - buy;
+        
+        maxProfit = Math.max(Profit , maxProfit);
+      }
+      
+      System.out.print(maxProfit);
+      
+      
+    }
+}
