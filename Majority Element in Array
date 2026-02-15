@@ -1,0 +1,21 @@
+//Brute Force Approact
+
+class Solution {
+    public int majorityElement(int[] arr) {
+        int n = arr.length;
+
+        for (int val : arr) {
+            int fq = 0;
+
+            for (int el : arr) {
+                if (el == val) {
+                    fq++;
+                }
+            }
+            if (fq > n / 2) {
+                return val;
+            }
+        }
+        return -1;
+    }
+}
