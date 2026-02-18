@@ -1,1 +1,28 @@
 
+class Solution {
+    public int singleNumber(int[] arr) {
+
+        // result will store the final single number
+        // initialized to 0 because XOR with 0 gives the same number
+        int result = 0;
+
+        // index to traverse the array
+        int i = 0;
+
+        // loop through the entire array
+        while (i < arr.length) {
+
+            // XOR current element with result
+            // - if the number appears twice, it cancels out (a ^ a = 0)
+            // - if the number appears once, it remains
+            result ^= arr[i];
+
+            // move to the next element
+            i++;
+        }
+
+        // after processing all elements,
+        // result will contain the number that appeared only once
+        return result;
+    }
+}
