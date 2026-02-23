@@ -1,0 +1,39 @@
+class Solution {
+    public void sortColors(int[] nums) {
+
+        // Counters to store how many 0s, 1s, and 2s are present
+        int countzero = 0, countone = 0, counttwo = 0;
+
+        // First loop: count occurrences of 0, 1, and 2
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                countzero++;      // increment count of 0s
+            } else if (nums[i] == 1) {
+                countone++;       // increment count of 1s
+            } else {
+                counttwo++;       // increment count of 2s
+            }
+        }
+
+        // Index to overwrite values back into the array
+        int i = 0;
+
+        // Place all 0s at the beginning of the array
+        while (countzero > 0) {
+            nums[i++] = 0;        // write 0 and move index forward
+            countzero--;          // reduce remaining 0 count
+        }
+
+        // Place all 1s after the 0s
+        while (countone > 0) {
+            nums[i++] = 1;        // write 1 and move index forward
+            countone--;           // reduce remaining 1 count
+        }
+
+        // Place all 2s after the 1s
+        while (counttwo > 0) {
+            nums[i++] = 2;        // write 2 and move index forward
+            counttwo--;           // reduce remaining 2 count
+        }
+    }
+}
