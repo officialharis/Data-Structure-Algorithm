@@ -1,0 +1,30 @@
+class Solution {
+    public void reverseString(char[] s) {
+
+        // Pointer starting from the beginning of the array
+        int l = 0;
+
+        // Pointer starting from the end of the array
+        int r = s.length - 1;
+
+        // Continue swapping until both pointers meet
+        while (l < r) {
+
+            // Store the left character temporarily
+            char temp = s[l];
+
+            // Move the right character to the left position
+            s[l] = s[r];
+
+            // Put the stored character into the right position
+            s[r] = temp;
+
+            // Move left pointer one step to the right
+            l++;
+
+            // Move right pointer one step to the left
+            r--;
+        }
+        // Array is now reversed in-place
+    }
+}
