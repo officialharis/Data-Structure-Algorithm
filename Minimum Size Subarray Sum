@@ -1,1 +1,50 @@
 
+class Solution {
+    public int minSubArrayLen(int target, int[] arr) {
+
+        // Pointer that represents the LEFT boundary of the sliding window
+        int i = 0;
+
+        // Variable to keep track of the SUM of elements
+        // currently inside the sliding window
+        int sum = 0;
+
+        // Variable to store the MINIMUM length of a subarray
+        // whose sum is >= target
+        // Initialized to a very large value
+        int minLen = Integer.MAX_VALUE;
+
+        // Pointer that represents the RIGHT boundary of the sliding window
+        // This loop expands the window by moving j to the right
+        for (int j = 0; j < arr.length; j++) {
+
+            // Add the current element to the window sum
+            // This is equivalent to expanding the window to the right
+            sum += arr[j];
+
+            // As long as the current window sum is >= target,
+            // we try to shrink the window from the left
+            // to find the smallest possible valid subarray
+            while (sum >= target) {
+
+                // Calculate the current window size (j - i + 1)
+                // and update the minimum length found so far
+                minLen = Math.min(minLen, j - i + 1);
+
+                // Remove the element at the left boundary from the sum
+                // because we are about to move the left pointer forward
+                sum -= arr[i];
+
+                // Move the left pointer to the right
+                // This shrinks the window from the left
+                i++;
+            }
+        }
+
+        // If minLen was never updated, it means
+        // no subarray with sum >= target exists
+        // In that case, return 0
+        // Otherwise, return the minimum length found
+        return minLen == Integer.MAX_VALUE ? 0 : minLen;
+    }
+}
