@@ -1,1 +1,54 @@
 
+class Solution {
+    public int trap(int[] height) {
+
+        // Pointer starting from the left end of the array
+        int left = 0;
+
+        // Pointer starting from the right end of the array
+        int right = height.length - 1;
+
+        // Stores the maximum height seen so far from the left side
+        int leftMax = 0;
+
+        // Stores the maximum height seen so far from the right side
+        int rightMax = 0;
+
+        // Variable to store total trapped water
+        int water = 0;
+
+        // Continue until both pointers meet
+        while (left < right) {
+
+            // If left bar is smaller, water trapping depends on left side
+            if (height[left] <= height[right]) {
+
+                // Update the maximum height encountered from the left
+                leftMax = Math.max(leftMax, height[left]);
+
+                // Water trapped at this index =
+                // leftMax (highest wall on left) - current bar height
+                water += leftMax - height[left];
+
+                // Move left pointer inward
+                left++;
+
+            } else {
+                // If right bar is smaller, water trapping depends on right side
+
+                // Update the maximum height encountered from the right
+                rightMax = Math.max(rightMax, height[right]);
+
+                // Water trapped at this index =
+                // rightMax (highest wall on right) - current bar height
+                water += rightMax - height[right];
+
+                // Move right pointer inward
+                right--;
+            }
+        }
+
+        // Return total trapped water
+        return water;
+    }
+}
