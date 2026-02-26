@@ -1,1 +1,52 @@
 
+class Solution {
+    public int longestOnes(int[] nums, int k) {
+
+        // left pointer of the sliding window
+        int left = 0;
+
+        // stores the maximum valid window size found
+        int ans = 0;
+
+        // counts number of 1s in the current window
+        int window = 0;
+
+        // length of the array
+        int n = nums.length;
+
+        // right pointer expands the sliding window
+        for (int right = 0; right < n; right++) {
+
+            // add current element to the window
+            // since nums contains only 0s and 1s,
+            // this effectively counts number of 1s
+            window = window + nums[right];
+
+            /*
+             * Current window size = right - left + 1
+             * Number of zeros in window =
+             * window size - number of ones
+             * = (right - left + 1) - window
+             *
+             * If zeros > k, window is invalid
+             * so we shrink it from the left
+             */
+            while ((right - left + 1) - window > k) {
+
+                // remove nums[left] from window
+                // if it was 1, window (count of ones) decreases
+                window = window - nums[left];
+
+                // move left pointer to shrink the window
+                left++;
+            }
+
+            // after making window valid (zeros <= k),
+            // update the maximum window size
+            ans = Math.max(ans, right - left + 1);
+        }
+
+        // return the maximum length of valid window found
+        return ans;
+    }
+}
