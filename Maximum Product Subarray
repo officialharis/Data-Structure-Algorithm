@@ -1,1 +1,93 @@
 
+class Solution {
+    public int maxProduct(int[] nums) {
+
+        // prefix stores the product of elements
+        // when traversing the array from left to right
+        int prefix = 1;
+
+        // suffix stores the product of elements
+        // when traversing the array from right to left
+        int suffix = 1;
+
+        // ans keeps track of the maximum product found so far
+        // initialized to the smallest integer to handle
+        // cases where all numbers are negative
+        int ans = Integer.MIN_VALUE;
+
+        // length of the array
+        int n = nums.length;
+
+        // single loop to traverse the array from both ends
+        for (int i = 0; i < n; i++) {
+
+            /*
+             * If prefix becomes 0, it means we encountered a zero earlier.
+             * Any product multiplied by 0 becomes 0.
+             * So we reset prefix to 1 to start a new subarray
+             * after the zero.
+             */
+            if (prefix == 0) {
+                prefix = 1;
+            }
+
+            /*
+             * Same logic applies to suffix.
+             * If suffix becomes 0, reset it to 1 so that
+             * we can start calculating product from the right
+             * side again after a zero.
+             */
+            if (suffix == 0) {
+                suffix = 1;
+            }
+
+            /*
+             * Multiply the current element while moving from left.
+             * This considers subarrays ending at index i.
+             */
+            prefix = prefix * nums[i];
+
+            /*
+             * Multiply the current element while moving from right.
+             * This considers subarrays starting at index (n - i - 1).
+             */
+            suffix = suffix * nums[n - i - 1];
+
+            /*
+             * The maximum product subarray could be found
+             * either from the left scan (prefix)
+             * or from the right scan (suffix).
+             * So we take the maximum of:
+             *  - current ans
+             *  - current prefix
+             *  - current suffix
+             */
+            ans = Math.max(ans, Math.max(prefix, suffix));
+        }
+
+        // return the maximum product subarray found
+        return ans;
+    }
+
+}
+
+
+🧠 Why this algorithm works (intuition)
+
+A zero breaks any product → reset
+
+A negative number flips the sign
+
+Maximum product may:
+
+start after a zero
+
+end before a zero
+
+Scanning both directions ensures we don’t miss valid subarrays
+
+⏱ Complexity
+
+Time: O(n)
+
+Space: O(1)
