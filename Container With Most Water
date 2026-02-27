@@ -44,3 +44,63 @@ class Solution {
         return maxarea;
     }
 }
+
+## Optimal Approach
+
+⏱ Complexity
+
+Time: O(n) → each pointer moves at most n times
+
+Space: O(1) → no extra memory used
+
+class Solution {
+    public int maxArea(int[] height) {
+
+        // maxarea stores the maximum water area found so far.
+        // Initialized to 0 because area cannot be negative.
+        int maxarea = 0;
+
+        // Two pointers:
+        // i starts at the beginning (leftmost line)
+        // j starts at the end (rightmost line)
+        int i = 0, j = height.length - 1;
+
+        // Continue while the two pointers do not cross
+        while (i < j) {
+
+            // The height of water is limited by the shorter line.
+            // Even if one line is taller, water will overflow from the shorter one.
+            int h = Math.min(height[i], height[j]);
+
+            // Width is the horizontal distance between the two lines
+            int w = j - i;
+
+            // Area formed by the current pair of lines
+            // area = height * width
+            int area = w * h;
+
+            // Update maxarea if the current area is larger
+            maxarea = Math.max(area, maxarea);
+
+            // Move the pointer that has the smaller height.
+            // Reason:
+            // The area is limited by the shorter line.
+            // Moving the taller line will not increase the height,
+            // but moving the shorter line may find a taller boundary
+            // and potentially increase the area.
+            if (height[i] <= height[j]) {
+                i++;   // move left pointer inward
+            } else {
+                j--;   // move right pointer inward
+            }
+        }
+
+        // System.gc() is unnecessary here.
+        // Java's garbage collector runs automatically when needed.
+        // Calling it manually does not improve performance.
+        System.gc();
+
+        // Return the maximum area found
+        return maxarea;
+    }
+}
