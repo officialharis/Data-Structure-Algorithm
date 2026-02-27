@@ -1,0 +1,46 @@
+## Brute Force Approach
+
+⏳ Complexity
+
+Time: O(n²) → all pairs
+
+Space: O(1) → no extra memory
+
+
+class Solution {
+    public int maxArea(int[] height) {
+
+        // This variable will store the maximum area found so far.
+        // We start with 0 because area cannot be negative.
+        int maxarea = 0;
+
+        // Outer loop: picks the first line of the container
+        // i represents the left boundary of the container
+        for (int i = 0; i < height.length; i++) {
+
+            // Inner loop: picks the second line of the container
+            // j represents the right boundary (always ahead of i)
+            for (int j = i + 1; j < height.length; j++) {
+
+                // The height of water is limited by the shorter line.
+                // Water will spill over the taller line if the shorter one is small.
+                int h = Math.min(height[i], height[j]);
+
+                // Width of the container is the distance between the two indices
+                // Since j > i, width is always positive
+                int width = j - i;
+
+                // Area is calculated using:
+                // area = height of water * width between the lines
+                int area = h * width;
+
+                // Update maxarea if the current area is larger
+                maxarea = Math.max(maxarea, area);
+            }
+        }
+
+        // After checking all possible pairs of lines,
+        // return the maximum area found
+        return maxarea;
+    }
+}
