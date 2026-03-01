@@ -1,1 +1,78 @@
 
+class Solution {
+    public int mySqrt(int x) {
+
+        // Special case:
+        // If x is 0, its square root is also 0.
+        // (The loop below would also work, but this saves time and is clearer.)
+        if (x == 0) return 0;
+
+        // 'left' represents the smallest candidate for sqrt(x)
+        int left = 0;
+
+        // 'right' represents the largest candidate for sqrt(x)
+        // We use 'x' instead of 'x + 1' to avoid integer overflow
+        // when x == Integer.MAX_VALUE.
+        int right = x;
+
+        // Binary search loop:
+        // We continue while the search space is valid.
+        while (left <= right) {
+
+            // Calculate mid safely to avoid overflow:
+            // (left + right) / 2 could overflow for large values,
+            // so we use this form instead.
+            int mid = left + (right - left) / 2;
+
+            // Compute mid * mid using long to prevent overflow.
+            // mid * mid can exceed Integer.MAX_VALUE.
+            long square = (long) mid * mid;
+
+            // Case 1:
+            // If mid^2 is exactly x, then mid is the perfect square root.
+            if (square == x) {
+                return mid;
+            }
+
+            // Case 2:
+            // If mid^2 is smaller than x, then mid is too small.
+            // The square root must be on the right side.
+            else if (square < x) {
+                left = mid + 1;
+            }
+
+            // Case 3:
+            // If mid^2 is greater than x, then mid is too large.
+            // The square root must be on the left side.
+            else {
+                right = mid - 1;
+            }
+        }
+
+        // When the loop ends:
+        // - 'left' has crossed over 'right'
+        // - 'right' is the largest value such that right^2 <= x
+        // Therefore, 'right' is the integer square root of x.
+        return right;
+    }
+}
+
+
+🧠 Key ideas summarized
+
+Binary search is applied on the range [0, x]
+
+Overflow is avoided by:
+
+Using long for mid * mid
+
+Avoiding x + 1
+
+The answer is the largest integer whose square is ≤ x
+
+🧪 Example (x = 8)
+
+Valid squares: 0² = 0, 1² = 1, 2² = 4
+
+3² = 9 is too large
+➡️ Answer = 2
