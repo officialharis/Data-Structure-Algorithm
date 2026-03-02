@@ -1,1 +1,67 @@
 
+import java.util.HashSet;
+import java.util.Set;
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+
+        // HashSet to store characters currently inside the sliding window
+        // It helps us quickly check if a character is repeating
+        Set<Character> set = new HashSet<>();
+
+        // 'left' pointer represents the start of the sliding window
+        int left = 0;
+
+        // Variable to store the maximum length of substring found so far
+        int maxLen = 0;
+
+        // 'right' pointer moves from start to end of the string
+        for (int right = 0; right < s.length(); right++) {
+
+            // If the current character already exists in the set,
+            // it means we found a duplicate character in the window
+            while (set.contains(s.charAt(right))) {
+
+                // Remove the character at the 'left' pointer
+                // because we want to shrink the window from the left
+                set.remove(s.charAt(left));
+
+                // Move the left pointer forward to reduce the window size
+                left++;
+            }
+
+            // At this point, the character at 'right' is not duplicated
+            // so we can safely add it to the set
+            set.add(s.charAt(right));
+
+            // Calculate the current window length
+            // (right - left + 1) gives number of characters in the window
+            maxLen = Math.max(maxLen, right - left + 1);
+        }
+
+        // Return the length of the longest substring without repeating characters
+        return maxLen;
+    }
+}
+
+
+🧠 Intuition (Simple Words)
+
+We maintain a window of unique characters
+
+right expands the window
+
+If duplicate appears → left shrinks the window
+
+HashSet ensures no repeated characters
+
+Keep updating the maximum window size
+
+🧪 Example Dry Run: "pwwkew"
+Step	Window	Set	maxLen
+p	"p"	{p}	1
+w	"pw"	{p,w}	2
+w	duplicate → shrink	{w}	2
+k	"wk"	{w,k}	2
+e	"wke"	{w,k,e}	3
+w	duplicate → shrink	{k,e,w}	3
