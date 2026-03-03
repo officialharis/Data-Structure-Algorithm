@@ -1,1 +1,90 @@
 
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;          // Value stored in the node
+ *     ListNode next;    // Reference to the next node
+ *
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+
+class Solution {
+    public ListNode mergeTwoLists(ListNode h1, ListNode h2) {
+
+        // ================= BASE CASES =================
+
+        // If first list is empty, return second list
+        if (h1 == null) return h2;
+
+        // If second list is empty, return first list
+        if (h2 == null) return h1;
+
+        // ================= RECURSIVE CASE =================
+
+        // Compare the values at the current heads of both lists
+        if (h1.val < h2.val) {
+
+            /*
+             h1 has the smaller value, so it should come first
+             
+             Now we merge:
+             - remaining part of list1 (h1.next)
+             - entire list2 (h2)
+             
+             The returned merged list is attached to h1.next
+            */
+            h1.next = mergeTwoLists(h1.next, h2);
+
+            // Return h1 as the head of the merged list
+            return h1;
+
+        } else {
+
+            /*
+             h2 has the smaller OR equal value, so it should come first
+             
+             IMPORTANT:
+             We must move h2 forward (h2.next),
+             otherwise recursion will never progress.
+             
+             We merge:
+             - entire list1 (h1)
+             - remaining part of list2 (h2.next)
+             
+             The returned merged list is attached to h2.next
+            */
+            h2.next = mergeTwoLists(h1, h2.next);
+
+            // Return h2 as the head of the merged list
+            return h2;
+        }
+    }
+}
+
+🧠 Key Idea (In Simple Words)
+
+Always pick the smaller node
+
+Move only that node forward
+
+Attach the result of recursion
+
+Stop when one list becomes null
+
+🔑 Interview Rule to Remember
+
+In recursion, at least one pointer must move forward in every call
+
+This prevents infinite recursion and ensures correctness.
+
+⏱ Complexity
+
+Time: O(n + m)
+
+Space: O(n + m) (recursion stack)
