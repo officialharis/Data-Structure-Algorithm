@@ -1,0 +1,64 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;          // Value stored in the node
+ *     ListNode next;    // Reference to the next node
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+
+class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+
+        // If the list is empty, nothing to remove
+        if (head == null) return null;
+
+        // Create a dummy (sentinel) node
+        // This helps handle deletion of the head node easily
+        ListNode dummy = new ListNode(0);
+
+        // Connect dummy node to the original head of the list
+        dummy.next = head;
+
+        // 'tail' is used to traverse the list
+        // It always points to the node BEFORE the one being checked
+        ListNode tail = dummy;
+
+        // Traverse the list until there are no more nodes
+        while (tail.next != null) {
+
+            // If the next node contains the value to be removed
+            if (tail.next.val == val) {
+
+                // Skip (delete) the next node by changing the link
+                // tail -> node_to_delete -> next
+                // becomes
+                // tail -> next
+                tail.next = tail.next.next;
+
+            } else {
+                // If no deletion happened, move tail forward
+                tail = tail.next;
+            }
+        }
+
+        // System.gc() is unnecessary in Java
+        // Garbage collection happens automatically
+        System.gc();
+
+        // Return the new head of the list
+        // (dummy node itself is not part of the list)
+        return dummy.next;
+    }
+}
+
+⏱ Complexity
+
+Time: O(n)
+
+Space: O(1) (optimal)
