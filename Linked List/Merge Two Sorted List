@@ -15,90 +15,64 @@
 class Solution {
     public ListNode mergeTwoLists(ListNode h1, ListNode h2) {
 
-        // ================= BASE CASES =================
-
         // If first list is empty, return second list
         if (h1 == null) return h2;
 
         // If second list is empty, return first list
         if (h2 == null) return h1;
 
-        // ================= DUMMY NODE =================
-
-        /*
-         Create a dummy node (also called sentinel node).
-         This helps us build the merged list easily without
-         worrying about the head initialization.
-         
-         The value 0 is arbitrary and not part of the result.
-        */
+        // Create a dummy node to simplify list merging
+        // This node is not part of the final merged list
         ListNode newNode = new ListNode(0);
 
-        /*
-         currNode will always point to the last node
-         of the merged list while we are building it.
-        */
+        // Pointer used to build the merged list
         ListNode currNode = newNode;
 
-        // ================= MAIN MERGING LOOP =================
-
-        /*
-         Continue merging as long as both lists have nodes
-        */
+        // Traverse both lists while neither is empty
         while (h1 != null && h2 != null) {
 
-            // Compare current values of both lists
+            // Compare current nodes of both lists
             if (h1.val <= h2.val) {
 
-                /*
-                 h1 has the smaller (or equal) value.
-                 Attach h1 node to the merged list.
-                */
+                // h1 has smaller or equal value
+                // Attach h1 node to merged list
                 currNode.next = h1;
 
-                // Move h1 pointer forward
+                // Move h1 pointer to next node
                 h1 = h1.next;
 
             } else {
 
-                /*
-                 h2 has the smaller value.
-                 Attach h2 node to the merged list.
-                */
+                // h2 has smaller value
+                // Attach h2 node to merged list
                 currNode.next = h2;
 
-                // Move h2 pointer forward
+                // Move h2 pointer to next node
                 h2 = h2.next;
             }
 
-            // Move currNode forward to the newly added node
+            // Move currNode forward to the last added node
             currNode = currNode.next;
         }
 
-        // ================= ATTACH REMAINING NODES =================
+        // At this point, one of the lists is fully traversed
 
-        /*
-         At this point, one of the lists is fully traversed.
-         Attach the remaining nodes of the non-empty list.
-        */
-
+        // If h1 is empty, attach remaining nodes of h2
         if (h1 == null) {
             currNode.next = h2;
         }
 
+        // If h2 is empty, attach remaining nodes of h1
         if (h2 == null) {
             currNode.next = h1;
         }
 
-        /*
-         System.gc() is NOT required here.
-         Java's garbage collector runs automatically.
-         This line can be safely removed.
-        */
+        // System.gc() is NOT required
+        // Java automatically handles memory management
         System.gc();
 
-        // Return the actual head of the merged list
-        // (dummy node's next)
+        // Return the head of the merged list
+        // (skip the dummy node)
         return newNode.next;
     }
 }
