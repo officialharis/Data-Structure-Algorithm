@@ -1,0 +1,55 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;          // Value of the node
+ *     ListNode next;    // Pointer to next node
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+
+        // If list is empty or has only one node,
+        // there can be no duplicates
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        // Pointer to traverse the list
+        ListNode curr = head;
+
+        // Traverse until the last node
+        while (curr != null && curr.next != null) {
+
+            // If current node value is same as next node value,
+            // we found a duplicate
+            if (curr.val == curr.next.val) {
+
+                // Skip the duplicate node by changing links
+                // curr -> duplicate -> next
+                // becomes
+                // curr -> next
+                curr.next = curr.next.next;
+
+            } else {
+                // If values are different, move curr forward
+                curr = curr.next;
+            }
+        }
+
+        // Return the head of the updated list
+        return head;
+    }
+}
+
+⏱ Complexity
+
+Time: O(n)
+
+Space: O(1) (in-place)
