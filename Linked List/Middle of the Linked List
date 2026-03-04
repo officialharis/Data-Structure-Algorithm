@@ -1,1 +1,30 @@
 
+class Solution {
+    public ListNode findMiddle(ListNode head) {
+
+        // If the linked list is empty, there is no middle
+        if (head == null) return null;
+
+        // Slow pointer moves one step at a time
+        ListNode slow = head;
+
+        // Fast pointer moves two steps at a time
+        ListNode fast = head;
+
+        // Loop continues while fast can move ahead
+        // fast != null       → list not finished
+        // fast.next != null  → fast can jump two steps safely
+        while (fast != null && fast.next != null) {
+
+            // Move slow pointer by one node
+            slow = slow.next;
+
+            // Move fast pointer by two nodes
+            fast = fast.next.next;
+        }
+
+        // When fast reaches the end,
+        // slow will be at the middle of the list
+        return slow;
+    }
+}
