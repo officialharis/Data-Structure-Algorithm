@@ -1,1 +1,98 @@
 
+import java.util.*;
+
+class Solution {
+    public List<Integer> findSubstring(String s, String[] words) {
+
+        // List to store the starting indices of valid substrings
+        List<Integer> result = new ArrayList<>();
+
+        // Edge case: if string or words array is empty
+        if (s == null || s.length() == 0 || words.length == 0)
+            return result;
+
+        // Length of each word (all words have same length)
+        int wordLen = words[0].length();
+
+        // Number of words in the array
+        int numWords = words.length;
+
+        // Total length of concatenated substring we need to check
+        int totalLen = wordLen * numWords;
+
+        // Map to store the frequency of each word in the words array
+        Map<String, Integer> wordMap = new HashMap<>();
+
+        // Fill the map with word frequencies
+        for (String word : words) {
+            wordMap.put(word, wordMap.getOrDefault(word, 0) + 1);
+        }
+
+        // We try different starting offsets (0 to wordLen-1)
+        // This ensures we check every possible aligned substring
+        for (int i = 0; i < wordLen; i++) {
+
+            // Left pointer of sliding window
+            int left = i;
+
+            // Number of valid words matched in current window
+            int count = 0;
+
+            // Map to store frequency of words seen in current window
+            Map<String, Integer> seen = new HashMap<>();
+
+            // Move window in steps of wordLen
+            for (int j = i; j <= s.length() - wordLen; j += wordLen) {
+
+                // Extract word from current position
+                String word = s.substring(j, j + wordLen);
+
+                // If word exists in the given words list
+                if (wordMap.containsKey(word)) {
+
+                    // Add word to seen map
+                    seen.put(word, seen.getOrDefault(word, 0) + 1);
+
+                    // Increase count of matched words
+                    count++;
+
+                    // If word appears more times than required
+                    // shrink window from left
+                    while (seen.get(word) > wordMap.get(word)) {
+
+                        String leftWord = s.substring(left, left + wordLen);
+
+                        // Decrease frequency of leftmost word
+                        seen.put(leftWord, seen.get(leftWord) - 1);
+
+                        // Move left pointer forward
+                        left += wordLen;
+
+                        // Reduce matched word count
+                        count--;
+                    }
+
+                    // If we matched all words
+                    if (count == numWords) {
+
+                        // Add starting index of valid substring
+                        result.add(left);
+                    }
+
+                } else {
+                    // If word not in words list
+                    // reset sliding window
+
+                    seen.clear();
+                    count = 0;
+
+                    // Move left pointer after current word
+                    left = j + wordLen;
+                }
+            }
+        }
+
+        // Return all valid starting indices
+        return result;
+    }
+}
