@@ -1,1 +1,110 @@
 
+/**
+ * Definition for singly-linked list.
+ * Each node contains a value and a pointer to the next node.
+ */
+public class ListNode {
+    int val;        // value stored in the node
+    ListNode next;  // pointer to next node
+
+    ListNode() {}   // default constructor
+
+    ListNode(int val) { 
+        this.val = val; 
+    }
+
+    ListNode(int val, ListNode next) { 
+        this.val = val; 
+        this.next = next; 
+    }
+}
+
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+
+        // Head will store the start of the result linked list
+        ListNode head = null;
+
+        // Temp pointer is used to move through the result list
+        ListNode temp = null;
+
+        // Carry value for addition (like normal digit addition)
+        int carry = 0;
+
+        // Loop continues while:
+        // l1 has nodes OR l2 has nodes OR carry still exists
+        while(l1 != null || l2 != null || carry != 0){
+
+            // If l1 becomes null, use 0 as its value
+            int val1 = (l1 == null) ? 0 : l1.val;
+
+            // If l2 becomes null, use 0 as its value
+            int val2 = (l2 == null) ? 0 : l2.val;
+
+            // Add both values and carry
+            int value = val1 + val2 + carry;
+
+            // Create new node with last digit of sum
+            // (value % 10 gives the unit digit)
+            ListNode newNode = new ListNode(value % 10);
+
+            // Update carry for next iteration
+            // (value / 10 gives carry digit)
+            carry = value / 10;
+
+            // If result list is empty, set head and temp to new node
+            if(head == null){
+                head = newNode;
+                temp = newNode;
+            }
+            else{
+                // Otherwise attach new node to result list
+                temp.next = newNode;
+
+                // Move temp pointer forward
+                temp = temp.next;
+            }
+
+            // Move l1 pointer to next node if it exists
+            if(l1 != null){
+                l1 = l1.next;
+            }
+
+            // Move l2 pointer to next node if it exists
+            if(l2 != null){
+                l2 = l2.next;
+            }
+        }
+
+        // Suggest garbage collection (not necessary in Java normally)
+        System.gc();
+
+        // Return head of the result linked list
+        return head;
+    }
+}
+
+💡 What this problem does
+
+This is the famous LeetCode problem: Add Two Numbers.
+
+Example:
+
+l1 = [2 → 4 → 3]   (represents 342)
+l2 = [5 → 6 → 4]   (represents 465)
+
+Output:
+[7 → 0 → 8]        (represents 807)
+
+Because:
+
+342 + 465 = 807
+
+The digits are stored in reverse order in the linked list.
+
+⚙️ Time & Space Complexity
+
+Time Complexity: O(max(n, m))
+
+Space Complexity: O(max(n, m)) (for result list)
+
