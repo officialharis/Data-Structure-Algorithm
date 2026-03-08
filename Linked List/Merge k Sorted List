@@ -1,1 +1,172 @@
 
+/**
+ * Definition for singly-linked list.
+ * Each node contains an integer value and a pointer to the next node.
+ */
+public class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode() {}
+
+    // constructor with value
+    ListNode(int val) {
+        this.val = val;
+    }
+
+    // constructor with value and next node
+    ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
+    }
+}
+
+class Solution {
+
+    public ListNode mergeKLists(ListNode[] lists) {
+
+        // if the array is empty or null, return null
+        if (lists == null || lists.length == 0)
+            return null;
+
+        // number of linked lists
+        int k = lists.length;
+
+        // interval decides which lists to merge
+        int interval = 1;
+
+        /*
+        This loop merges lists in pairs using divide and conquer.
+        First we merge lists 1 apart, then 2 apart, then 4 apart etc.
+        Similar idea to merge sort.
+        */
+        while (interval < k) {
+
+            /*
+            Merge list[i] with list[i + interval]
+            Then store result back in list[i]
+            */
+            for (int i = 0; i + interval < k; i += interval * 2) {
+
+                lists[i] = mergeTwoList(lists[i], lists[i + interval]);
+
+            }
+
+            // increase interval exponentially
+            interval *= 2;
+        }
+
+        // final merged list is stored at index 0
+        return lists[0];
+    }
+
+
+    /*
+    Function to merge two sorted linked lists
+    */
+    private ListNode mergeTwoList(ListNode h1, ListNode h2) {
+
+        // dummy node to simplify list creation
+        ListNode head = new ListNode(0);
+
+        // pointer used to build merged list
+        ListNode curr = head;
+
+        // pointers to traverse the two lists
+        ListNode curr1 = h1;
+        ListNode curr2 = h2;
+
+        /*
+        Compare nodes of both lists
+        and attach the smaller one to merged list
+        */
+        while (curr1 != null && curr2 != null) {
+
+            if (curr1.val < curr2.val) {
+
+                // attach node from list1
+                curr.next = curr1;
+
+                // move pointer in list1
+                curr1 = curr1.next;
+
+            } else {
+
+                // attach node from list2
+                curr.next = curr2;
+
+                // move pointer in list2
+                curr2 = curr2.next;
+            }
+
+            // move merged list pointer
+            curr = curr.next;
+        }
+
+        /*
+        If list1 still has nodes left,
+        attach remaining nodes
+        */
+        while (curr1 != null) {
+
+            curr.next = curr1;
+            curr1 = curr1.next;
+            curr = curr.next;
+        }
+
+        /*
+        If list2 still has nodes left,
+        attach remaining nodes
+        */
+        while (curr2 != null) {
+
+            curr.next = curr2;
+            curr2 = curr2.next;
+            curr = curr.next;
+        }
+
+        /*
+        head was a dummy node,
+        so actual merged list starts from head.next
+        */
+        return head.next;
+    }
+}
+
+🧠 How the Algorithm Works
+
+Example with 4 lists
+
+L1: 1 → 4 → 7
+L2: 2 → 5 → 8
+L3: 3 → 6 → 9
+L4: 10 → 11
+Step 1 (interval = 1)
+merge(L1, L2)
+merge(L3, L4)
+
+Result:
+
+L1: 1 2 4 5 7 8
+L3: 3 6 9 10 11
+Step 2 (interval = 2)
+merge(L1 , L3)
+
+Final merged list:
+
+1 2 3 4 5 6 7 8 9 10 11
+⏱ Time Complexity
+O(N log k)
+
+Where:
+
+N = total number of nodes
+
+k = number of lists
+
+Reason: merging happens log k times.
+
+📌 Space Complexity
+O(1)
+
+Because we reuse existing nodes.
