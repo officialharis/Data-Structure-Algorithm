@@ -1,1 +1,57 @@
 
+import java.util.HashMap;
+
+class Solution {
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+
+        // HashMap to store number -> last index where it appeared
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        // Traverse through the array
+        for (int i = 0; i < nums.length; i++) {
+
+            // Check if the current number was already seen before
+            if (map.containsKey(nums[i])) {
+
+                // Get the previous index of this number
+                int prevIndex = map.get(nums[i]);
+
+                // Check if the distance between indices is <= k
+                if (i - prevIndex <= k) {
+                    return true;  // Duplicate found within allowed distance
+                }
+            }
+
+            // Update the map with the current index of the number
+            // (this also overwrites older index if same number appears again)
+            map.put(nums[i], i);
+        }
+
+        // If no such pair is found
+        return false;
+    }
+}
+
+🔎 Example Walkthrough
+
+Input:
+
+nums = [1,2,3,1]
+k = 3
+
+Step-by-step:
+
+i	nums[i]	Map Before	Action
+0	1	{}	store (1 → 0)
+1	2	{1:0}	store (2 → 1)
+2	3	{1:0,2:1}	store (3 → 2)
+3	1	{1:0,2:1,3:2}	3 - 0 ≤ 3 → return true
+
+Output:
+
+true
+⏱ Complexity
+
+Time Complexity: O(n)
+
+Space Complexity: O(n) (HashMap storage)
