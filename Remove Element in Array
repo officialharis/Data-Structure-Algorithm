@@ -1,1 +1,34 @@
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        
+        // j is the index where the next valid element (not equal to val) will be placed
+        int j = 0;
 
+        // Traverse the entire array using i
+        for(int i = 0; i < nums.length; i++){
+
+            // Check if the current element is NOT equal to the value we want to remove
+            if(nums[i] != val){
+
+               // If it is not equal, copy the element to index j
+               // This shifts valid elements toward the beginning of the array
+               nums[j] = nums[i];
+
+               // Move j to the next position for the next valid element
+               j++;
+            }
+        }
+
+        // j represents the count of elements that are not equal to val
+        // This is the new length of the modified array
+        return j;
+    }
+}
+
+Time Complexity:
+
+O(n) → you traverse the array only once.
+
+Space Complexity:
+
+O(1) → no extra memory used (in-place modification).
