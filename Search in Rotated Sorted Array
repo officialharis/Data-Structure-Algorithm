@@ -1,0 +1,82 @@
+class Solution {
+    public int search(int[] nums, int target) {
+
+        // Initialize search boundaries
+        int low = 0;
+        int high = nums.length - 1;
+
+        // Standard binary search loop
+        while (low <= high) {
+
+            // Calculate mid to avoid integer overflow
+            int mid = low + (high - low) / 2;
+
+            // If target found, return its index
+            if (nums[mid] == target) return mid;
+
+            // Check if the LEFT HALF is sorted
+            if (nums[low] <= nums[mid]) {
+
+                // If target lies inside the left sorted half
+                // Range: nums[low] → nums[mid]
+                if (target >= nums[low] && target < nums[mid]) {
+
+                    // Search in left half
+                    high = mid - 1;
+
+                } else {
+
+                    // Target is not in left half
+                    // Move to right half
+                    low = mid + 1;
+                }
+            }
+
+            // Otherwise RIGHT HALF must be sorted
+            else {
+
+                // If target lies inside the right sorted half
+                // Range: nums[mid] → nums[high]
+                if (target > nums[mid] && target <= nums[high]) {
+
+                    // Search in right half
+                    low = mid + 1;
+
+                } else {
+
+                    // Target is not in right half
+                    // Move to left half
+                    high = mid - 1;
+                }
+            }
+        }
+
+        // Target not found
+        return -1;
+    }
+}
+
+🧠 How the Algorithm Works (Short Idea)
+
+A rotated sorted array always has one sorted half.
+
+Example:
+
+[4,5,6,7,0,1,2]
+
+At any mid:
+
+Either left side is sorted
+
+Or right side is sorted
+
+So we:
+
+Detect which side is sorted.
+
+Check if the target lies in that sorted range.
+
+Move the search accordingly.
+
+✅ Time Complexity: O(log n) (binary search)
+✅ Space Complexity: O(1)
