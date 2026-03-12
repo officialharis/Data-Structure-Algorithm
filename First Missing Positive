@@ -1,1 +1,81 @@
 
+class Solution {
+    public int firstMissingPositive(int[] nums) {
+
+        int n = nums.length;   // length of the array
+
+        // Step 1: Place every number at its correct index
+        // If value = x, it should be placed at index x-1
+        for(int i = 0; i < n; i++){
+
+            // Condition checks:
+            // nums[i] > 0 → ignore negative numbers
+            // nums[i] <= n → ignore numbers greater than array size
+            // nums[nums[i]-1] != nums[i] → avoid infinite swapping when duplicate exists
+            while(nums[i] > 0 && nums[i] <= n && nums[nums[i]-1] != nums[i]){
+
+                // Store the value at the correct position temporarily
+                int temp = nums[nums[i]-1];
+
+                // Place current number at its correct index (nums[i] -> nums[nums[i]-1])
+                nums[nums[i]-1] = nums[i];
+
+                // Put the previous value back at index i
+                nums[i] = temp;
+            }
+        }
+
+        // Step 2: After rearranging, check which index does not have correct value
+        for(int i = 0; i < n; i++){
+
+            // If index i does not contain i+1,
+            // then i+1 is the smallest missing positive number
+            if(nums[i] != i + 1){
+                return i + 1;
+            }
+        }
+
+        // Step 3: If all numbers 1..n are present
+        // then the smallest missing positive is n+1
+        return n + 1;
+    }
+}
+Example Walkthrough
+
+Input:
+
+nums = [3,4,-1,1]
+Step 1 (Place numbers correctly)
+
+Correct positions:
+
+1 → index 0
+2 → index 1
+3 → index 2
+4 → index 3
+
+After rearranging:
+
+[1, -1, 3, 4]
+Step 2 (Find mismatch)
+index 0 → 1 ✔
+index 1 → -1 ❌
+
+So answer:
+
+2
+Key Idea (Very Important)
+
+Each number tries to sit at its correct index:
+
+value 1 → index 0
+value 2 → index 1
+value 3 → index 2
+value 4 → index 3
+
+First place numbers correctly, then first wrong index + 1 = answer.
+
+Complexity
+Type	Complexity
+Time	O(n)
+Space	O(1)
