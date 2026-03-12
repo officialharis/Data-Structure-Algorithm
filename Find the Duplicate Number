@@ -1,1 +1,32 @@
 
+class Solution {
+    public int findDuplicate(int[] nums) {
+        Arrays.sort(nums);
+
+        for(int i=0; i<nums.length - 1; i++){
+            if(nums[i] == nums[i+1]){
+                return nums[i];
+            }
+        }
+
+        return -1;
+    }
+}
+Time Complexity
+
+Arrays.sort(nums) → O(n log n)
+
+Loop to check adjacent elements → O(n)
+
+Total complexity:
+
+𝑂
+(
+𝑛
+log
+⁡
+𝑛
+)
+O(nlogn)
+
+Because O(n log n) dominates O(n).
