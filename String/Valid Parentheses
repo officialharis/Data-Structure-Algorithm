@@ -1,0 +1,83 @@
+import java.util.Stack;
+
+class Solution {
+    public boolean isValid(String s) {
+
+        // Create a stack to store opening brackets
+        Stack<Character> stack = new Stack<>();
+
+        // Convert the string into a character array and iterate through each character
+        for(char ch : s.toCharArray()){
+
+            // If the character is an opening bracket
+            if(ch == '(' || ch == '{' || ch == '['){
+
+                // Push the opening bracket onto the stack
+                stack.push(ch);
+            } 
+            else{
+
+                // If we encounter a closing bracket but the stack is empty
+                // it means there is no matching opening bracket
+                if(stack.isEmpty()) 
+                    return false;
+
+                // Pop the top element from the stack
+                // This should be the corresponding opening bracket
+                char top = stack.pop();
+
+                // Check if the popped opening bracket matches the closing bracket
+                // If not, the parentheses are invalid
+                if((ch == ')' && top != '(') ||
+                   (ch == '}' && top != '{') ||
+                   (ch == ']' && top != '[')){
+                    return false;
+                }
+            }
+        }
+
+        // After processing all characters:
+        // If the stack is empty → all brackets matched correctly
+        // If not empty → some opening brackets were never closed
+        return stack.isEmpty();
+    }
+}
+💡 How the Algorithm Works
+
+Push opening brackets ( { [ into the stack.
+
+When a closing bracket appears:
+
+Check if the stack is empty → invalid.
+
+Pop the top element.
+
+Verify if it matches the closing bracket.
+
+After finishing the loop:
+
+If stack is empty → valid.
+
+If stack is not empty → invalid.
+
+Example
+
+Input:
+
+s = "{[]}"
+
+Stack operations:
+
+Character	Stack
+{	{
+[	{ [
+]	{
+}	empty
+
+Result → true
+
+Complexity
+
+Time Complexity: O(n)
+
+Space Complexity: O(n) (stack may store all opening brackets)
