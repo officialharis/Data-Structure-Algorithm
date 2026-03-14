@@ -1,1 +1,80 @@
 
+class Solution {
+    public String longestCommonPrefix(String[] str) {
+
+        // Sort the array of strings in lexicographical (dictionary) order
+        // After sorting, the strings with the smallest and largest prefixes
+        // will be at the first and last positions
+        Arrays.sort(str);
+
+        // Take the first string (smallest lexicographically)
+        String s1 = str[0];
+
+        // Take the last string (largest lexicographically)
+        String s2 = str[str.length - 1];
+
+        // Variable to track matching characters index
+        int i = 0;
+
+        // Compare characters of s1 and s2 until they stop matching
+        while(i < s1.length()){
+
+            // If characters at index i are the same in both strings
+            if(s1.charAt(i) == s2.charAt(i)){
+                i++; // move to next character
+            }else{
+                // Stop when characters differ
+                break;
+            }
+        }
+
+        // If no characters matched, there is no common prefix
+        if(i == 0){
+            return "";
+        }else{
+            // Return the substring from start to the last matching index
+            return s1.substring(0 , i);
+        }
+    }
+}
+💡 Key Idea of This Approach
+
+Sort the array of strings.
+
+Only compare the first and last string.
+
+Because in sorted order, the maximum possible difference occurs between first and last.
+
+The common prefix of these two will be the prefix for the whole array.
+
+⏱ Time Complexity
+
+Sorting: O(n log n)
+
+Comparing characters: O(m)
+Where:
+
+n = number of strings
+
+m = length of the shortest string
+
+Example
+
+Input:
+
+["flower","flow","flight"]
+
+After sorting:
+
+["flight","flow","flower"]
+
+Compare:
+
+flight
+flower
+
+Common prefix → "fl"
+
+Return:
+
+"fl"
