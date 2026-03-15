@@ -1,1 +1,29 @@
 
+class Solution {
+    public char findTheDifference(String s, String t) {
+
+        // This variable will store the difference of ASCII values
+        int sum = 0;
+
+        // Loop through every character in string t
+        // Convert string t into a char array
+        for (char c : t.toCharArray()) {
+
+            // Add ASCII value of each character to sum
+            sum += c;
+        }
+
+        // Loop through every character in string s
+        for (char c : s.toCharArray()) {
+
+            // Subtract ASCII value of each character from sum
+            sum -= c;
+        }
+
+        // After adding all characters of t and subtracting all characters of s,
+        // the remaining value in sum will be the ASCII value of the extra character
+
+        // Convert ASCII value back to character and return it
+        return (char) sum;
+    }
+}
