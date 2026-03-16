@@ -1,1 +1,93 @@
+class Solution {
+    public boolean isMatch(String s, String p) {
 
+        // i -> pointer for string s
+        // j -> pointer for pattern p
+        int i = 0, j = 0;
+
+        // star -> position of last '*' seen in pattern
+        // match -> position in string where '*' started matching
+        int star = -1, match = 0;
+
+        // Iterate through the string
+        while (i < s.length()) {
+
+            // Case 1: characters match OR pattern has '?'
+            // '?' matches exactly one character
+            if (j < p.length() &&
+               (p.charAt(j) == s.charAt(i) || p.charAt(j) == '?')) {
+
+                i++; // move string pointer
+                j++; // move pattern pointer
+            }
+
+            // Case 2: pattern contains '*'
+            else if (j < p.length() && p.charAt(j) == '*') {
+
+                // store position of '*'
+                star = j;
+
+                // store position of match in string
+                match = i;
+
+                // move pattern pointer to next char
+                j++;
+            }
+
+            // Case 3: characters don't match but we saw '*' before
+            else if (star != -1) {
+
+                // go back to position after '*'
+                j = star + 1;
+
+                // extend the match of '*'
+                match++;
+
+                // move string pointer
+                i = match;
+            }
+
+            // Case 4: mismatch and no '*' to adjust
+            else {
+                return false;
+            }
+        }
+
+        // If pattern still has remaining '*', skip them
+        while (j < p.length() && p.charAt(j) == '*') {
+            j++;
+        }
+
+        // If we reached end of pattern, match is successful
+        return j == p.length();
+    }
+}
+
+Intuition (Simple)
+
+Think of * as elastic:
+
+When we see *, we remember its position
+
+If a mismatch happens later, we expand * to cover more characters
+
+So we backtrack only to the last *, not the whole string.
+
+Example Dry Run
+s = "adceb"
+p = "*a*b"
+
+Steps:
+
+* matches ""
+a matches a
+* matches "dce"
+b matches b
+
+Result → true
+
+✅ Why this solution is preferred in interviews
+
+Method	Time	Space
+DP	O(m × n)	O(m × n)
+Greedy	O(m + n)	O(1)
