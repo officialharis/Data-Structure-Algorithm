@@ -1,0 +1,57 @@
+
+import java.util.*;
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+
+        // Step 1: Convert both strings into character arrays
+        // because Arrays.sort() works on arrays, not directly on String
+        char[] arr1 = s.toCharArray();
+        char[] arr2 = t.toCharArray();
+
+        // Step 2: Sort both character arrays
+        // If two strings are anagrams, their sorted forms will be identical
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
+
+        // Step 3: Convert sorted character arrays back to Strings
+        // so we can easily compare them using .equals()
+        String sorted1 = new String(arr1);
+        String sorted2 = new String(arr2);
+
+        // Step 4: Compare the sorted strings
+        // If they are equal, then both original strings are anagrams
+        if (sorted1.equals(sorted2)) {
+            return true;   // strings are anagrams
+        } else {
+            return false;  // strings are NOT anagrams
+        }
+    }
+}
+
+⏱️ Time and Space Complexity of Your Approach
+🔹 Time Complexity: O(n log n)
+
+Converting strings to arrays → O(n)
+
+Sorting both arrays → O(n log n) each
+
+Comparing strings → O(n)
+
+👉 Overall:
+
+O(n log n)
+
+(Sorting dominates the time)
+
+🔹 Space Complexity: O(n)
+
+You create:
+
+2 char arrays → arr1, arr2
+
+2 new strings → sorted1, sorted2
+
+👉 Total extra space:
+
+O(n)
