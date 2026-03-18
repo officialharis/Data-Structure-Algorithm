@@ -1,0 +1,58 @@
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        
+        // If s is empty, it is always a subsequence of t
+        if (s.length() == 0)
+            return true;
+
+        // i -> pointer for string s
+        // j -> pointer for string t
+        int i = 0, j = 0;
+
+        // Traverse both strings
+        // Stop when either string is fully traversed
+        while (i < s.length() && j < t.length()) {
+
+            // If characters match, move both pointers
+            if (s.charAt(i) == t.charAt(j)) {
+                i++;   // move in s
+                j++;   // move in t
+            } 
+            else {
+                // If not match, only move pointer in t
+                // because we are trying to find s inside t
+                j++;
+            }
+        }
+
+        // If we have matched all characters of s,
+        // then s is a subsequence of t
+        return i == s.length();
+    }
+}
+⏱️ Time Complexity
+
+You traverse t at most once
+
+s is also traversed once (via pointer i)
+
+👉 Time Complexity = O(n + m)
+
+n = s.length()
+
+m = t.length()
+
+Since m can be up to 
+10
+4
+10
+4
+, this is efficient.
+
+🧠 Space Complexity
+
+No extra data structures used
+
+Only a few variables (i, j)
+
+👉 Space Complexity = O(1) (constant space)
