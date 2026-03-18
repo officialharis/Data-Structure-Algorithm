@@ -26,6 +26,52 @@ class Solution {
             }
         }
 
+
+⏱️ Time Complexity
+
+toLowerCase() → O(n)
+
+replaceAll() → O(n) (regex scan through string)
+
+Two-pointer loop → O(n)
+
+👉 Overall Time Complexity: O(n)
+👉 Space Complexity: O(n) (because a new cleaned string is created)
+
+🔍 Example Dry Run
+Input:
+"A man, a plan, a canal: Panama"
+Step 1: Preprocessing
+s = "amanaplanacanalpanama"
+Step 2: Two Pointer Check
+i	j	s[i]	s[j]	Match?
+0	20	a	a	✅
+1	19	m	m	✅
+2	18	a	a	✅
+3	17	n	n	✅
+...	...	...	...	...
+10	10	a	a	✅
+
+Pointers keep moving inward.
+
+Final Result:
+
+✔ All characters match
+👉 Output: true
+
+❌ Another Example
+Input:
+"race a car"
+After cleaning:
+"raceacar"
+
+Comparison:
+
+r == r ✅
+
+a == a ✅
+
+c != e ❌ → return false
         // If all characters matched, the string is a palindrome
         return true;
     }
