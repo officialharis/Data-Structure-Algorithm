@@ -1,0 +1,44 @@
+class Solution {
+    public String addStrings(String num1, String num2) {
+        
+        String result = "";   // final answer will be stored here
+        
+        int i = num1.length() - 1; // pointer for num1 (start from last digit)
+        int j = num2.length() - 1; // pointer for num2 (start from last digit)
+        
+        int carry = 0; // carry value (like in normal addition)
+
+        // loop runs until both strings end AND no carry is left
+        while (i >= 0 || j >= 0 || carry > 0) {
+
+            // get digit from num1, if finished take 0
+            int d1 = (i >= 0) ? num1.charAt(i) - '0' : 0;
+
+            // get digit from num2, if finished take 0
+            int d2 = (j >= 0) ? num2.charAt(j) - '0' : 0;
+
+            // add both digits and carry
+            int sum = d1 + d2 + carry;
+
+            // take last digit of sum and add to result (in front)
+            result = (sum % 10) + result;
+
+            // update carry (remaining part)
+            carry = sum / 10;
+
+            // move to next digits (left side)
+            i--;
+            j--;
+        }
+
+        // return final result
+        return result;
+    }
+}
+🧠 Quick Understanding
+
+sum % 10 → gives last digit
+
+sum / 10 → gives carry
+
+Build result from right to left
