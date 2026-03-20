@@ -1,1 +1,71 @@
 
+class Solution {
+    public boolean validPalindrome(String s) {
+        int i = 0;                  // pointer starting from left
+        int j = s.length() - 1;     // pointer starting from right
+
+        // Traverse while left pointer is less than right pointer
+        while (i < j) {
+            // If characters do NOT match
+            if (s.charAt(i) != s.charAt(j)) {
+
+                // Try skipping one character:
+                // 1. Skip left character (i+1, j)
+                // 2. Skip right character (i, j-1)
+                // If either case forms a palindrome, return true
+                return isPalindrome(s, i + 1, j) || isPalindrome(s, i, j - 1);
+            }
+
+            // If characters match, move both pointers inward
+            i++;
+            j--;
+        }
+
+        // If loop completes without mismatches, it's already a palindrome
+        return true;
+    }
+
+    // Helper function to check if substring s[i...j] is a palindrome
+    private boolean isPalindrome(String s, int i, int j) {
+
+        // Standard two-pointer palindrome check
+        while (i < j) {
+            // If mismatch found, it's NOT a palindrome
+            if (s.charAt(i) != s.charAt(j)) {
+                return false;
+            }
+
+            // Move pointers inward
+            i++;
+            j--;
+        }
+
+        // If no mismatches, it's a palindrome
+        return true;
+    }
+}
+🧠 Simple Understanding
+
+Use two pointers (i, j)
+
+If characters match → move inward
+
+If mismatch → you get one chance to delete
+
+Skip left OR skip right
+
+After that → remaining must be a perfect palindrome
+
+🔍 Example: "abca"
+
+Compare 'a' and 'a' → OK
+
+Compare 'b' and 'c' → mismatch
+
+Try:
+
+remove 'b' → "aca" ✅ palindrome
+
+remove 'c' → "aba" ✅ palindrome
+
+→ result = true
