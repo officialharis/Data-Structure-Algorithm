@@ -1,1 +1,66 @@
 
+class Solution {
+
+    // This function expands around a center and returns the palindrome substring
+    private String expandFromCenter(String s, int left, int right) {
+
+        // Expand while:
+        // 1. left pointer doesn't go out of bounds
+        // 2. right pointer doesn't go out of bounds
+        // 3. characters at left and right are equal
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;   // move left pointer outward
+            right++;  // move right pointer outward
+        }
+
+        // When loop stops, left and right are one step beyond palindrome
+        // So actual palindrome is from (left+1) to (right-1)
+        return s.substring(left + 1, right);
+    }
+
+    public String longestPalindrome(String s) {
+
+        // Edge case: empty string
+        if (s == null || s.length() < 1) return "";
+
+        String result = "";  // stores longest palindrome found
+
+        // Try every index as a center
+        for (int i = 0; i < s.length(); i++) {
+
+            // Case 1: Odd length palindrome (center is one character)
+            // Example: "aba" → center = 'b'
+            String odd = expandFromCenter(s, i, i);
+
+            // Case 2: Even length palindrome (center is between two characters)
+            // Example: "abba" → center between 'b' and 'b'
+            String even = expandFromCenter(s, i, i + 1);
+
+            // Update result if odd palindrome is longer
+            if (odd.length() > result.length()) {
+                result = odd;
+            }
+
+            // Update result if even palindrome is longer
+            if (even.length() > result.length()) {
+                result = even;
+            }
+        }
+
+        // Return the longest palindrome substring found
+        return result;
+    }
+}
+🧠 Intuition (Simple)
+A palindrome mirrors around its center
+So instead of checking all substrings:
+Pick a center
+Expand outward
+Do this for:
+Every character → odd length
+Every gap → even length
+🔍 Quick Dry Run
+
+For "cbbd":
+
+i = 1 → expand "bb" → longest found ✔
