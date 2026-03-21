@@ -64,3 +64,7 @@ Every gap → even length
 For "cbbd":
 
 i = 1 → expand "bb" → longest found ✔
+
+⏱ Complexity
+Time: O(n²)
+Space: O(1)
