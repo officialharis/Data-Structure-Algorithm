@@ -1,0 +1,49 @@
+class Solution {
+    public int findMin(int[] nums) {
+        int start = 0;                  // Left boundary of search space
+        int end = nums.length - 1;      // Right boundary
+
+        // Continue until the search space reduces to one element
+        while (start < end) {
+            int mid = start + (end - start) / 2;  // Prevents overflow
+
+            // Case 1: Middle element is greater than the last element
+            // → Minimum must be in the right half (unsorted part)
+            if (nums[mid] > nums[end]) {
+                start = mid + 1;
+            } 
+            
+            // Case 2: Middle element is smaller than the last element
+            // → Right half is sorted, so minimum lies in left half (including mid)
+            else if (nums[mid] < nums[end]) {
+                end = mid;
+            } 
+            
+            // Case 3: nums[mid] == nums[end]
+            // → Cannot determine the side due to duplicates
+            // → Safely reduce search space by shrinking end
+            else {
+                end--;
+            }
+        }
+
+        // At the end, start == end → pointing to minimum element
+        return nums[start];
+    }
+}
+🧠 Intuition (very important)
+You compare with nums[end] to detect which half is sorted
+If duplicates block the decision → shrink search space safely
+⏱ Time Complexity
+Case	Complexity
+Best / Average	O(log n)
+Worst (many duplicates)	O(n)
+
+👉 Worst case example:
+
+[1,1,1,1,1]
+
+You only reduce end-- one step at a time.
+
+💾 Space Complexity
+O(1) (no extra memory used)
