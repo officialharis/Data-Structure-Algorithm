@@ -1,1 +1,49 @@
 
+class Solution {
+    public int getCommon(int[] nums1, int[] nums2) {
+
+        int i = 0; // pointer for nums1
+        int j = 0; // pointer for nums2
+
+        // Traverse both arrays until one of them ends
+        while (i < nums1.length && j < nums2.length) {
+
+            // If both elements are equal → common element found
+            if (nums1[i] == nums2[j]) {
+                return nums1[i];
+            }
+
+            // If element in nums1 is smaller → move i forward
+            // because we need a bigger value to match nums2[j]
+            else if (nums1[i] < nums2[j]) {
+                i++;
+            }
+
+            // If element in nums2 is smaller → move j forward
+            // because we need a bigger value to match nums1[i]
+            else {
+                j++;
+            }
+        }
+
+        // If no common element found
+        return -1;
+    }
+}
+🧠 Intuition (Very Important)
+Both arrays are sorted
+So we don’t need nested loops
+We move the pointer of the smaller element
+This avoids unnecessary comparisons
+⏱️ Time Complexity
+O(n + m)
+n = nums1.length
+m = nums2.length
+Each pointer moves at most once through its array
+💾 Space Complexity
+O(1)
+No extra space used
+Only two pointers (i, j)
+⚡ Why This is Optimal?
+Brute force → O(n * m) ❌
+This approach → O(n + m) ✅ (much faster)
