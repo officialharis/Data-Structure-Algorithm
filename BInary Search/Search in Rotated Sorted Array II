@@ -1,1 +1,73 @@
+class Solution {
+    public boolean search(int[] nums, int target) {
+        int left = 0; 
+        int right = nums.length - 1;
 
+        // Binary search loop
+        while (left <= right) {
+
+            // Find middle index
+            int mid = left + (right - left) / 2;
+
+            // ✅ If target found
+            if (nums[mid] == target) {
+                return true;
+            }
+
+            // ⚠️ Case 1: Duplicates (cannot decide sorted side)
+            // Example: [2,2,2,3,2]
+            if (nums[left] == nums[mid] && nums[mid] == nums[right]) {
+                left++;   // shrink from left
+                right--;  // shrink from right
+            }
+
+            // ✅ Case 2: Left half is sorted
+            else if (nums[left] <= nums[mid]) {
+
+                // Check if target lies in left sorted half
+                if (nums[left] <= target && target < nums[mid]) {
+                    right = mid - 1;   // search left side
+                } else {
+                    left = mid + 1;    // search right side
+                }
+            }
+
+            // ✅ Case 3: Right half is sorted
+            else {
+
+                // Check if target lies in right sorted half
+                if (nums[mid] < target && target <= nums[right]) {
+                    left = mid + 1;    // search right side
+                } else {
+                    right = mid - 1;   // search left side
+                }
+            }
+        }
+
+        // ❌ Target not found
+        return false;
+    }
+}
+🧠 Intuition (Simple)
+
+At every step:
+
+Try to find which half is sorted
+Check if target lies in that half
+Move accordingly
+If duplicates block decision → shrink boundaries
+⏱️ Time Complexity
+Best case: O(1) → target found immediately
+Average case: O(log n) → normal binary search
+Worst case: O(n)
+Happens when many duplicates
+Example: [1,1,1,1,1,1,1]
+💾 Space Complexity
+O(1) (constant space)
+No extra memory used, only variables
+🔥 Final Takeaway
+
+👉 This problem = Binary Search + Edge Case (Duplicates)
+👉 The only tricky part is:
+
+nums[left] == nums[mid] == nums[right]
