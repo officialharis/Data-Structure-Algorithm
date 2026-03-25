@@ -1,1 +1,47 @@
 
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        int left = 0;                     // Start of search space
+        int right = nums.length - 1;      // End of search space
+
+        while (left < right) {            // Binary search loop
+
+            // Calculate middle index (avoids overflow)
+            int mid = right + (left - right) / 2;
+
+            // Make sure mid is even
+            // Because pairs start at even indices before the single element
+            if (mid % 2 == 1) {
+                mid--;                   // Shift to previous even index
+            }
+
+            // Check if current pair is valid
+            if (nums[mid] == nums[mid + 1]) {
+                // Pair is correct → single element is on the RIGHT side
+                left = mid + 2;
+            } else {
+                // Pair is broken → single element is at mid or LEFT side
+                right = mid;
+            }
+        }
+
+        // When left == right, we've found the single element
+        return nums[left];
+    }
+}
+🧠 Intuition (important!)
+
+Before the single element → pairs follow pattern:
+
+index: 0 1 | 2 3 | 4 5
+       a a   b b   c c
+
+After the single element → pattern shifts:
+
+index: ... | 5 6 | 7 8
+           d d   e e
+
+So:
+
+If pairing is correct → move right
+If pairing is broken → move left
