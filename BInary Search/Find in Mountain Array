@@ -1,1 +1,119 @@
 
+// This interface is given by the problem
+// You cannot access the array directly, only through get() and length()
+/*
+interface MountainArray {
+    public int get(int index);
+    public int length();
+}
+*/
+
+class Solution {
+    public int findInMountainArray(int target, MountainArray mountainArr) {
+
+        // Get size of array
+        int n = mountainArr.length();
+
+        // -------------------------------
+        // STEP 1: FIND PEAK INDEX
+        // -------------------------------
+        // Peak = element where increasing stops and decreasing starts
+
+        int left = 0, right = n - 1;
+
+        // Binary search to find peak
+        while (left < right) {
+
+            // Avoid overflow
+            int mid = left + (right - left) / 2;
+
+            // Compare mid with next element
+            if (mountainArr.get(mid) < mountainArr.get(mid + 1)) {
+
+                // We are in increasing part of mountain
+                // So peak must be on right side
+                left = mid + 1;
+
+            } else {
+
+                // We are in decreasing part OR at peak
+                // So peak is at mid or on left side
+                right = mid;
+            }
+        }
+
+        // When loop ends, left == right → peak index found
+        int peak = left;
+
+        // -------------------------------
+        // STEP 2: SEARCH LEFT SIDE (ASCENDING)
+        // -------------------------------
+        // Search from index 0 to peak (sorted in increasing order)
+
+        int res = binarySearch(mountainArr, target, 0, peak, true);
+
+        // If found in left side, return answer
+        if (res != -1) return res;
+
+        // -------------------------------
+        // STEP 3: SEARCH RIGHT SIDE (DESCENDING)
+        // -------------------------------
+        // Search from peak+1 to end (sorted in decreasing order)
+
+        return binarySearch(mountainArr, target, peak + 1, n - 1, false);
+    }
+
+
+    // ----------------------------------------
+    // BINARY SEARCH FUNCTION
+    // ----------------------------------------
+    // isAsc = true  → normal binary search
+    // isAsc = false → reverse binary search
+
+    private int binarySearch(MountainArray arr, int target, int left, int right, boolean isAsc) {
+
+        while (left <= right) {
+
+            int mid = left + (right - left) / 2;
+
+            // Get value at mid
+            int val = arr.get(mid);
+
+            // If target found → return index
+            if (val == target) return mid;
+
+            if (isAsc) {
+                // --------------------------
+                // ASCENDING ORDER SEARCH
+                // --------------------------
+
+                if (val < target) {
+                    // Target is on right side
+                    left = mid + 1;
+                } else {
+                    // Target is on left side
+                    right = mid - 1;
+                }
+
+            } else {
+                // --------------------------
+                // DESCENDING ORDER SEARCH
+                // --------------------------
+
+                if (val > target) {
+                    // Target is on right side (reverse logic)
+                    left = mid + 1;
+                } else {
+                    // Target is on left side
+                    right = mid - 1;
+                }
+            }
+        }
+
+        // If not found
+        return -1;
+    }
+}
+🧠 One-Line Intuition
+Find peak → split into 2 sorted arrays
+Apply binary search on both
