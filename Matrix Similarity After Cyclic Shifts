@@ -1,1 +1,52 @@
 
+class Solution {
+
+    public boolean areSimilar(int[][] mat, int k) {
+
+        // Number of rows
+        int n = mat.length;
+
+        // Number of columns
+        int m = mat[0].length;
+
+        // Reduce k because shifting m times gives same array
+        k = k % m;
+
+        // Traverse each row
+        for (int i = 0; i < n; i++) {
+
+            // Traverse each column
+            for (int j = 0; j < m; j++) {
+
+                int newCol; // This will store shifted column index
+
+                if (i % 2 == 0) {
+                    // EVEN ROW (0-based index)
+                    // Perform LEFT cyclic shift
+
+                    // After left shift by k:
+                    // element at index j moves to (j + k) % m
+                    newCol = (j + k) % m;
+
+                } else {
+                    // ODD ROW
+                    // Perform RIGHT cyclic shift
+
+                    // After right shift by k:
+                    // element at index j moves to (j - k + m) % m
+                    // +m is added to avoid negative index
+                    newCol = (j - k + m) % m;
+                }
+
+                // Compare original element with shifted position
+                // If any mismatch → matrix is NOT similar
+                if (mat[i][j] != mat[i][newCol]) {
+                    return false;
+                }
+            }
+        }
+
+        // If all elements match after virtual shifting
+        return true;
+    }
+}
