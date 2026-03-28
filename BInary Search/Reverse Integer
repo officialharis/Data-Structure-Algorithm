@@ -1,0 +1,30 @@
+
+class Solution {
+    public int reverse(int x) {
+        // This will store the reversed number
+        int rev = 0;
+
+        // Loop until all digits of x are processed
+        while (x != 0) {
+
+            // Extract the last digit of x
+            int digit = x % 10;
+
+            // Check for overflow BEFORE multiplying by 10
+            // If rev is already too large or too small,
+            // multiplying by 10 will cause overflow
+            if (rev > Integer.MAX_VALUE / 10 || rev < Integer.MIN_VALUE / 10) {
+                return 0; // Return 0 if overflow would happen
+            }
+
+            // Append the extracted digit to rev
+            rev = (rev * 10) + digit;
+
+            // Remove the last digit from x
+            x = x / 10;
+        }
+
+        // Return the reversed integer
+        return rev;
+    }
+}
