@@ -1,1 +1,77 @@
 
+
+class Solution {
+    public String multiply(String num1, String num2) {
+
+        // 🔹 Edge case: if any number is 0 → result is 0
+        if (num1.equals("0") || num2.equals("0")) return "0";
+
+        int n1 = num1.length();
+        int n2 = num2.length();
+
+        // 🔹 Result array to store multiplication result
+        // Maximum length = n1 + n2
+        int[] result = new int[n1 + n2];
+
+        // 🔹 Traverse both strings from right to left
+        for (int i = n1 - 1; i >= 0; i--) {
+
+            for (int j = n2 - 1; j >= 0; j--) {
+
+                // Convert char → int (e.g., '3' → 3)
+                int digit1 = num1.charAt(i) - '0';
+                int digit2 = num2.charAt(j) - '0';
+
+                // Multiply digits
+                int product = digit1 * digit2;
+
+                // Positions in result array
+                int pos1 = i + j;       // for carry
+                int pos2 = i + j + 1;   // for actual digit
+
+                // Add product to existing value at pos2
+                int sum = product + result[pos2];
+
+                // Store last digit at pos2
+                result[pos2] = sum % 10;
+
+                // Carry goes to pos1
+                result[pos1] += sum / 10;
+            }
+        }
+
+        // 🔹 Convert result array → string
+        StringBuilder sb = new StringBuilder();
+
+        for (int num : result) {
+
+            // Skip leading zeros
+            if (!(sb.length() == 0 && num == 0)) {
+                sb.append(num);
+            }
+        }
+
+        return sb.toString();
+    }
+}
+🧠 Key Concept
+We simulate manual multiplication
+Each digit multiplies with every digit
+Carry is handled using positions:
+i + j → carry
+i + j + 1 → actual digit
+⏱️ Time Complexity
+O(n1 × n2)
+Two nested loops:
+Outer loop → n1
+Inner loop → n2
+
+👉 So total operations = n1 × n2
+
+📦 Space Complexity
+O(n1 + n2)
+Result array size = n1 + n2
+🔥 Quick Summary
+Part	Complexity
+Time	O(n × m)
+Space	O(n + m)
