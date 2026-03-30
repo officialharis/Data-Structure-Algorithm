@@ -1,0 +1,49 @@
+class Solution {
+    public boolean checkStrings(String s1, String s2) {
+
+        // Arrays to store frequency differences
+        // hashE -> even index characters
+        // hashO -> odd index characters
+        int[] hashE = new int[26];
+        int[] hashO = new int[26];
+
+        int n = s1.length();
+
+        // Single loop to process both strings together
+        for (int i = 0; i < n; i++) {
+
+            // If index is even
+            if (i % 2 == 0) {
+
+                // Increment frequency for s1 character
+                hashE[s1.charAt(i) - 'a']++;
+
+                // Decrement frequency for s2 character
+                hashE[s2.charAt(i) - 'a']--;
+
+            } else { // If index is odd
+
+                // Increment frequency for s1 character
+                hashO[s1.charAt(i) - 'a']++;
+
+                // Decrement frequency for s2 character
+                hashO[s2.charAt(i) - 'a']--;
+            }
+        }
+
+        // Check if all frequencies became zero
+        // If yes -> both strings have same distribution
+        for (int i = 0; i < 26; i++) {
+
+            // If any mismatch exists, return false
+            if (hashE[i] != 0 || hashO[i] != 0) {
+                return false;
+            }
+        }
+
+        // All matched → strings can be made equal
+        return true;
+    }
+}
+
+⚡ Complexity Time: O(n) Space: O(1) (fixed size arrays)
