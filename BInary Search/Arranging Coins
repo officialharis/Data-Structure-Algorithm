@@ -1,0 +1,24 @@
+class Solution {
+    public int arrangeCoins(int n) {
+        // 'row' keeps track of how many complete rows we can form
+        int row = 0;
+
+        // Continue forming rows as long as we have enough coins
+        // for the next row (which needs row + 1 coins)
+        while (n >= row + 1) {
+            
+            // Move to the next row
+            row++;
+            
+            // Subtract the number of coins used to fill this row
+            n -= row;
+        }
+
+        // Return the total number of complete rows formed
+        return row;
+    }
+}
+Quick idea:
+Row 1 needs 1 coin, row 2 needs 2 coins, row 3 needs 3 coins, etc.
+Keep subtracting until you can’t build the next row.
+The number of successful rows is your answer.
