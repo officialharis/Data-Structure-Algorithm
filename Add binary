@@ -1,1 +1,71 @@
+class Solution {
+    public String addBinary(String a, String b) {
+        
+        // StringBuilder is used because strings are immutable in Java
+        // It allows efficient appending of characters
+        StringBuilder result = new StringBuilder();
+        
+        // Pointers starting from the end of both strings
+        int i = a.length() - 1; // last index of string a
+        int j = b.length() - 1; // last index of string b
+        
+        int carry = 0; // carry from previous addition
+        
+        // Loop runs while:
+        // - there are still digits left in a OR b
+        // - OR there is a carry remaining
+        while (i >= 0 || j >= 0 || carry == 1) {
+            
+            // Start sum with carry
+            int sum = carry;
+            
+            // If there are still digits left in string a
+            if (i >= 0) {
+                // Convert character ('0' or '1') to integer (0 or 1)
+                sum += a.charAt(i) - '0';
+                i--; // move pointer left
+            }
+            
+            // If there are still digits left in string b
+            if (j >= 0) {
+                // Convert character to integer
+                sum += b.charAt(j) - '0';
+                j--; // move pointer left
+            }
+            
+            // Append the current binary digit (sum % 2)
+            // Example: sum = 2 → append 0
+            //          sum = 3 → append 1
+            result.append(sum % 2);
+            
+            // Update carry (sum / 2)
+            // Example: sum = 2 or 3 → carry = 1
+            carry = sum / 2;
+        }
+        
+        // The result is built in reverse order (LSB → MSB)
+        // So we reverse it before returning
+        return result.reverse().toString();
+    }
+}
 
+
+🔍 Example
+
+Input:
+
+a = "11"
+b = "1"
+
+Steps:
+
+1 + 1 = 10 → write 0, carry 1  
+1 + carry = 10 → write 0, carry 1  
+final carry = 1
+
+Output:
+
+"100"
+⏱ Complexity
+Time: O(max(n, m))
+Space: O(max(n, m))
