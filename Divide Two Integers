@@ -1,1 +1,58 @@
 
+class Solution {
+    public int divide(int dividend, int divisor) {
+
+        // 🔴 Edge case: overflow
+        // Integer.MIN_VALUE = -2^31
+        // If we divide it by -1, result becomes 2^31 (out of int range)
+        if (dividend == Integer.MIN_VALUE && divisor == -1) {
+            return Integer.MAX_VALUE;
+        }
+
+        // 🔹 Convert both numbers to long and take absolute values
+        // This avoids overflow issues when working with Integer.MIN_VALUE
+        long dvd = Math.abs((long) dividend);
+        long dvs = Math.abs((long) divisor);
+
+        int result = 0; // This will store the final quotient
+
+        // 🔁 Keep subtracting divisor multiples from dividend
+        while (dvd >= dvs) {
+
+            long temp = dvs;   // Current multiple of divisor
+            int multiple = 1;  // Corresponding multiplier (power of 2)
+
+            // 🚀 Try to double the divisor (bit shifting)
+            // Find the largest multiple of divisor that fits into dividend
+            while (dvd >= (temp << 1)) {
+                temp <<= 1;        // temp = temp * 2
+                multiple <<= 1;    // multiple = multiple * 2
+            }
+
+            // ➖ Subtract that large chunk from dividend
+            dvd -= temp;
+
+            // ➕ Add how many times we subtracted (multiple)
+            result += multiple;
+        }
+
+        // 🔹 Determine the sign of result
+        // XOR: true if signs are different
+        if ((dividend < 0) ^ (divisor < 0)) {
+            result = -result;
+        }
+
+        // ✅ Return final answer
+        return result;
+    }
+}
+
+🔹 Mini Example (Quick View)
+dividend = 20, divisor = 3
+
+3 → 6 → 12 (largest possible)
+
+20 - 12 = 8
+8 - 6 = 2
+
+Answer = 4 + 2 = 6
