@@ -1,1 +1,42 @@
 
+class Solution {
+    public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        
+        // Create a temporary array to store rotated elements
+        int[] temp = new int[n];
+        
+        // Place each element in its new position
+        for (int i = 0; i < n; i++) {
+            // (i + k) % n ensures wrapping around the array
+            // Example: if index goes beyond array size, it comes back to start
+            temp[(i + k) % n] = nums[i];
+        }
+        
+        // Copy rotated elements back to original array
+        for (int i = 0; i < n; i++) {
+            nums[i] = temp[i];
+        }
+    }
+}
+🧠 Key Concept
+
+👉 (i + k) % n = new index after rotation
+
+i = current index
+k = steps to rotate
+% n = wrap around if it exceeds array size
+🔍 Example 1
+Input:
+nums = [1,2,3,4,5,6,7], k = 3
+Step-by-step:
+i	nums[i]	New Index (i+k)%n	temp array
+0	1	(0+3)%7 = 3	[,,,1,,,]
+1	2	4	[,,,1,2,,_]
+2	3	5	[,,,1,2,3,]
+3	4	6	[,,_,1,2,3,4]
+4	5	0	[5,,,1,2,3,4]
+5	6	1	[5,6,_,1,2,3,4]
+6	7	2	[5,6,7,1,2,3,4]
+Final Output:
+[5,6,7,1,2,3,4]
