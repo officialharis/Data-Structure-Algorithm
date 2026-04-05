@@ -1,0 +1,88 @@
+class Solution {
+    public ListNode swapPairs(ListNode head) {
+        
+        // Base case:
+        // If the list is empty OR has only one node,
+        // no swapping is needed → return head as it is
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        // First node of the current pair
+        ListNode first = head;
+
+        // Second node of the current pair
+        ListNode second = head.next;
+
+        // Recursively call for the rest of the list
+        // Example: if list is 1→2→3→4
+        // after swapping (1,2), we call swapPairs on 3→4
+        first.next = swapPairs(second.next);
+
+        // Perform the actual swap
+        // Make second point to first
+        second.next = first;
+
+        // Return new head of this pair
+        // (second becomes the new head after swap)
+        return second;
+    }
+}
+
+🔁 Dry Run (1 → 2 → 3 → 4)
+Initial Call:
+swapPairs(1 → 2 → 3 → 4)
+Step 1:
+first = 1
+second = 2
+
+Now recursively call:
+
+first.next = swapPairs(3 → 4)
+Step 2 (Recursive Call):
+swapPairs(3 → 4)
+first = 3
+second = 4
+
+Again call:
+
+first.next = swapPairs(null)
+Step 3 (Base Case):
+swapPairs(null) → return null
+Back to Step 2:
+3.next = null
+4.next = 3
+
+Result:
+
+4 → 3
+Back to Step 1:
+
+Now:
+
+1.next = 4 → 3
+2.next = 1
+
+Final result:
+
+2 → 1 → 4 → 3
+🧠 Call Stack Visualization
+swap(1,2)
+   ↳ swap(3,4)
+       ↳ swap(null)
+
+Then it builds back:
+
+swap(3,4) → 4→3
+swap(1,2) → 2→1→4→3
+⏱ Complexity
+Time Complexity:
+O(n)
+You visit each node exactly once.
+Space Complexity:
+O(n) (recursion stack)
+
+Because:
+
+Each recursive call waits on the stack
+In worst case (n nodes), stack depth = n/2 ≈ O(n)
