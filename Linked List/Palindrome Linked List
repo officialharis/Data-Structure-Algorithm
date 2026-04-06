@@ -1,1 +1,95 @@
 
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        
+        // Edge case: empty list or single node is always palindrome
+        if (head == null || head.next == null) return true;
+
+        // Step 1: Find the middle of the linked list
+        ListNode slow = head;   // moves 1 step
+        ListNode fast = head;   // moves 2 steps
+        
+        // When fast reaches end, slow will be at middle
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Step 2: Reverse the second half of the list starting from 'slow'
+        ListNode secondHalf = reverse(slow);
+
+        // Step 3: Compare first half and reversed second half
+        ListNode firstHalf = head;
+        ListNode temp = secondHalf;
+        
+        // Compare node values one by one
+        while (temp != null) {
+            if (firstHalf.val != temp.val) {
+                return false; // mismatch → not palindrome
+            }
+            firstHalf = firstHalf.next;
+            temp = temp.next;
+        }
+
+        // If all values matched
+        return true;
+    }
+
+    // Helper function to reverse a linked list
+    private ListNode reverse(ListNode head) {
+        ListNode prev = null;
+        
+        while (head != null) {
+            ListNode next = head.next; // store next node
+            head.next = prev;          // reverse link
+            prev = head;               // move prev forward
+            head = next;               // move head forward
+        }
+        
+        return prev; // new head of reversed list
+    }
+}
+🔍 Dry Run (Example)
+Input:
+1 → 2 → 2 → 1
+🟡 Step 1: Find Middle
+Iteration	slow	fast
+start	1	1
+1	2	2
+2	2	null
+
+👉 slow is now at middle (3rd node)
+
+🟡 Step 2: Reverse Second Half
+
+Starting from slow = 2 → 1
+
+After reversing:
+
+1 → 2
+🟡 Step 3: Compare Halves
+First Half	Second Half
+1	1 ✅
+2	2 ✅
+
+👉 All matched → Palindrome
+
+⚠️ Important Note (Interview Insight)
+
+For odd-length list like:
+
+1 → 2 → 3 → 2 → 1
+slow lands at 3
+Reversing from 3 still works because middle element doesn’t affect palindrome
+🔁 Optional Improvement (Restore List)
+
+In interviews, sometimes they expect you to restore the list:
+
+reverse(secondHalf);
+
+(Not required for LeetCode, but good practice.)
+
+🧠 Key Intuition
+Use fast & slow pointers → find middle
+Reverse only half list → save space
+Compare → done
